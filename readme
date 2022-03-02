@@ -11,17 +11,48 @@ Use async/await for @grpc/grpc-js package
 ```sh
 $ npm install grpc-client-promise-wrapper
 ```
+## Javascript
+---
+```js
+const promiseWrapper = require('grpc-client-promise-wrapper').promiseWrapper;
+```
+## Typescript
+---
+```ts
+import { promiseWrapper } from 'grpc-client-promise-wrapper';
+```
 
 ## Example
 ---
-```sh
+```go
+-- test.proto
+
+syntax = "proto3";
+
+package test;
+
+service TestService {
+  rpc GetTestFn (inputParam) returns (returnValue);
+}
+
+message InputParam {
+  string inputParam = 1;
+}
+
+message ReturnValue {
+  string returnValue = 1;
+}
+```
+```js
+-- app.js
+
 const _ = require('lodash');
 const grpc = require('@grpc/grpc-js');
 const protoLoader = require('@grpc/proto-loader');
 const promiseWrapper = require('grpc-client-promise-wrapper');
 
 const testStub = () => {
-  const packageDefinition = protoLoader.loadSync(path.join(__dirname, 'protos/test.proto'));
+  const packageDefinition = protoLoader.loadSync(path.join(__dirname, './test.proto'));
   const testService = grpc.loadPackageDefinition(packageDefinition).test;
   return promiseWrapper(new testService.TestService('localhost:3001', grpc.credentials.createInsecure()));
 };
