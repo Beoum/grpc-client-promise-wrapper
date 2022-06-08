@@ -1,32 +1,24 @@
 # grpc-client-promise-wrapper
 
----
-
 ## Documentation
----
 Use async/await for @grpc/grpc-js package
 
 ## Installation
----
 ```sh
 $ npm install grpc-client-promise-wrapper
 ```
 ## Javascript
----
 ```js
-const promiseWrapper = require('grpc-client-promise-wrapper').promiseWrapper;
+const promiseWrapper = require('grpc-client-promise-wrapper');
 ```
 ## Typescript
----
 ```ts
-import { promiseWrapper } from 'grpc-client-promise-wrapper';
+import * as promiseWrapper from 'grpc-client-promise-wrapper';
 ```
 
 ## Example
----
-```go
--- test.proto
-
+* test.proto
+```protobuf
 syntax = "proto3";
 
 package test;
@@ -43,10 +35,8 @@ message ReturnValue {
   string returnValue = 1;
 }
 ```
-```js
--- app.js
-
-const _ = require('lodash');
+* app.js
+```javascript
 const grpc = require('@grpc/grpc-js');
 const protoLoader = require('@grpc/proto-loader');
 const promiseWrapper = require('grpc-client-promise-wrapper');
@@ -59,10 +49,6 @@ const testStub = () => {
 
 const getTestFn = async (params) => {
   return testStub().getTestFn(params);
-};
-
-module.exports = {
-  getTestFn,
 };
 ```
 
