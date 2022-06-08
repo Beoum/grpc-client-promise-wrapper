@@ -1,16 +1,32 @@
 "use strict";
 
-const util = require('util');
-
-const _promiseWrapper = (client) => {
+const promiseWrapper = (client) => {
   const wrapFunctions = {};
 
   Object.keys(Object.getPrototypeOf(client))
     .forEach(functionName => {
-      wrapFunctions[functionName] = util.promisify(client[functionName].bind(client));
+      wrapFunctions[functionName] = async (...args) => {
+        const result = await new Promise(resolve => {
+          client[functionName](...args, (err, val) => {
+            resolve(err || val);
+          });
+        });
+
+        if (result instanceof Error) {
+          const error = new Error();
+          error.message = result.details;
+          error.details = result.details;
+          error.code = result.code;
+          error.metadata = result.metadata;
+
+          throw error;
+        }
+
+        return result;
+      }
     });
 
   return wrapFunctions;
 };
 
-exports.promiseWrapper = _promiseWrapper;
+module.exports = promiseWrapper;
