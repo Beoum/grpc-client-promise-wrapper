@@ -1,6 +1,6 @@
 {
   "name": "grpc-client-promise-wrapper",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "description": "Wrap the function of the grpc client, don't use callback anymore",
   "main": "index.js",
   "scripts": {
