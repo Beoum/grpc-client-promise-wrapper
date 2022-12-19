@@ -14,7 +14,7 @@ const promiseWrapper = (client) => {
 
         if (result instanceof Error) {
           const error = new Error();
-          error.message = result.details;
+          error.message = result.details ? result.details : 'Occur error when gRPC call';
           error.details = result.details;
           error.code = result.code;
           error.metadata = result.metadata;
